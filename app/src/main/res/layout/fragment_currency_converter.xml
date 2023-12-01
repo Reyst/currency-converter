@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CurrencyConverterFragment">
+    tools:context=".ui.converter.CurrencyConverterFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -74,26 +74,24 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/side_margin"
         android:gravity="end|center_vertical"
+        android:inputType="numberDecimal"
         android:textSize="18sp"
         android:textStyle="bold"
-        tools:text="100.00"
         app:layout_constraintBottom_toBottomOf="@id/img_sell"
+        app:layout_constraintEnd_toStartOf="@id/sell_currency"
         app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toTopOf="@id/img_sell"
-        app:layout_constraintEnd_toStartOf="@id/sell_currency"
-        />
+        tools:text="100.00" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/sell_currency"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/side_margin"
         app:layout_constraintBottom_toBottomOf="@id/img_sell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/img_sell"
-        android:spinnerMode="dialog"
-        tools:listitem="@layout/currency_item"
-        />
+        tools:listitem="@layout/currency_item" />
 
     <View
         android:id="@+id/divider"
@@ -153,26 +151,35 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/side_margin"
         android:gravity="end|center_vertical"
+        android:textColor="@color/green"
         android:textSize="18sp"
         android:textStyle="bold"
-        tools:text="100.00"
-        android:textColor="@color/green"
         app:layout_constraintBottom_toBottomOf="@id/img_receive"
+        app:layout_constraintEnd_toStartOf="@id/receive_currency"
         app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toTopOf="@id/img_receive"
-        app:layout_constraintEnd_toStartOf="@id/receive_currency"
-        />
+        tools:text="100.00" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/receive_currency"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/side_margin"
         app:layout_constraintBottom_toBottomOf="@id/img_receive"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/img_receive"
-        android:spinnerMode="dialog"
-        tools:listitem="@layout/currency_item"
-        />
+        tools:listitem="@layout/currency_item" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_receive"
+        app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
