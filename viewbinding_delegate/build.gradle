@@ -36,4 +36,5 @@ android {
 
 dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation 'androidx.lifecycle:lifecycle-common:2.6.2'
 }

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.CurrencyConverterFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/app_name"
+        app:titleCentered="true"
+        app:titleTextColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/balances_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginTop="@dimen/side_margin"
+        android:text="@string/my_balances"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:textAllCaps="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_balances"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/side_margin"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/balances_title"
+        tools:itemCount="3"
+        tools:listitem="@layout/balance_item" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/exchange_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginTop="@dimen/side_margin"
+        android:text="@string/currency_exchange"
+        app:layout_constraintTop_toBottomOf="@id/rv_balances"
+        app:textAllCaps="true" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="sell_caption,receive_caption" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_sell"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginTop="@dimen/side_margin"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/red"
+        android:padding="@dimen/side_margin"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exchange_title"
+        app:srcCompat="@drawable/arrow_up" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/sell_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:gravity="end|center_vertical"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="100.00"
+        app:layout_constraintBottom_toBottomOf="@id/img_sell"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintTop_toTopOf="@id/img_sell"
+        app:layout_constraintEnd_toStartOf="@id/sell_currency"
+        />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/sell_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/side_margin"
+        app:layout_constraintBottom_toBottomOf="@id/img_sell"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/img_sell"
+        android:spinnerMode="dialog"
+        tools:listitem="@layout/currency_item"
+        />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/side_margin"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:alpha="0.1"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/sell_caption"
+        app:layout_constraintTop_toBottomOf="@id/img_sell" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_receive"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginTop="@dimen/side_margin"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/green"
+        android:padding="@dimen/side_margin"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:srcCompat="@drawable/arrow_down" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/sell_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:gravity="center_vertical"
+        android:text="@string/sell"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/img_sell"
+        app:layout_constraintStart_toEndOf="@id/img_sell"
+        app:layout_constraintTop_toTopOf="@id/img_sell" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/receive_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:gravity="center_vertical"
+        android:text="@string/receive"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/img_receive"
+        app:layout_constraintStart_toEndOf="@id/img_sell"
+        app:layout_constraintTop_toTopOf="@id/img_receive" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/receive_amount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:gravity="end|center_vertical"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="100.00"
+        android:textColor="@color/green"
+        app:layout_constraintBottom_toBottomOf="@id/img_receive"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintTop_toTopOf="@id/img_receive"
+        app:layout_constraintEnd_toStartOf="@id/receive_currency"
+        />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/receive_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/side_margin"
+        app:layout_constraintBottom_toBottomOf="@id/img_receive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/img_receive"
+        android:spinnerMode="dialog"
+        tools:listitem="@layout/currency_item"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
