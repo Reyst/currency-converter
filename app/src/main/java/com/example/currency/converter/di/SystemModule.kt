@@ -3,6 +3,8 @@ package com.example.currency.converter.di
 import androidx.room.Room
 import com.example.currency.converter.R
 import com.example.currency.converter.data.db.AppDb
+import com.example.currency.converter.data.db.DbCallback
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
@@ -11,12 +13,18 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val DB_NAME = "database"
+const val DB_NAME = "database.db"
 
 val systemModule = module {
 
+    single { GsonBuilder().create() }
+
     single {
-        Room.databaseBuilder(androidApplication(), AppDb::class.java, DB_NAME).build()
+
+        Room.databaseBuilder(androidApplication(), AppDb::class.java, DB_NAME)
+            .addCallback(DbCallback())
+            .build()
+
     }
 
     single {

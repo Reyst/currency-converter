@@ -4,5 +4,7 @@ internal val connectedModules = listOf(
     systemModule,
     networkModule,
     dbModule,
+    repositoryModule,
+    casesModule,
     uiModule,
 )
