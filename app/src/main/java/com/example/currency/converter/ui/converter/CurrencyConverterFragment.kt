@@ -27,13 +27,14 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
 
     private val vm by viewModel<CurrencyConverterVM>()
 
-    private val balanceAdapter by lazy {
-        val formatter = NumberFormat.getInstance(Locale.getDefault()).apply {
+
+    private val formatter = NumberFormat.getInstance(Locale.getDefault())
+        .apply {
             minimumFractionDigits = 2
             maximumFractionDigits = 2
         }
-        BalanceAdapter(formatter)
-    }
+
+    private val balanceAdapter by lazy { BalanceAdapter(formatter) }
 
     private val sellCurrencyAdapter by lazy { SelectCurrencyAdapter(requireContext()) }
 
@@ -84,16 +85,12 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
     }
 
     private fun render(state: CurrencyConverterState) {
-
         balanceAdapter.submitList(state.balances)
 
-        state.balances
-            .map { it.currency }
-            .also {
-                sellCurrencyAdapter.setItems(it)
-                receiveCurrencyAdapter.setItems(it)
-            }
+        sellCurrencyAdapter.setItems(state.availableCurrencies)
+        receiveCurrencyAdapter.setItems(state.availableCurrencies)
 
+        binding.receiveAmount.text = formatter.format(state.dstAmount)
         binding.btnSubmit.isEnabled = state.isConversionAvailable
     }
 }

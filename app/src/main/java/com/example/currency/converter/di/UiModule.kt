@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val uiModule = module {
 
-    viewModel { CurrencyConverterVM(get(), get()) }
+    viewModel { CurrencyConverterVM(get(), get(), get(), get(), get()) }
 
 }

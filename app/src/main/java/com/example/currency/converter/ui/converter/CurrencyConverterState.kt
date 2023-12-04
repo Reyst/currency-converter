@@ -4,10 +4,13 @@ import com.example.currency.converter.domain.entities.Account
 
 data class CurrencyConverterState(
     val balances: List<Account> = listOf(Account()),
-    val rates: Map<String, Double> = emptyMap(),
-    val sell: Double = 0.0,
-    val receive: Double = 0.0,
+    val availableCurrencies: List<String> = emptyList(),
+    val srcAmount: Double = 0.0,
+    val srcCurrency: String = "",
+    val srcRate: Double = 0.0,
+    val dstCurrency: String = "",
+    val dstRate: Double = 0.0,
+    val dstAmount: Double = 0.0,
+    val fee: Double = 0.0,
     val isConversionAvailable: Boolean = false,
-    val sellCurrency: String = "",
-    val receiveCurrency: String = "",
 )

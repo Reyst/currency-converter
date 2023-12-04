@@ -8,6 +8,6 @@ interface RatesRepository {
 
     suspend fun updateRates(): Result<Map<String, Double>>
 
-    fun getRatesForConversion(sellCurrency: String, receiveCurrency: String): Flow<ConversionRates>
+    fun getRatesForConversion(srcCurrency: String, dstCurrency: String): Flow<ConversionRates>
 
 }

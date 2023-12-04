@@ -16,7 +16,7 @@ class DefaultRatesRepository(
 ) : RatesRepository {
     override suspend fun updateRates(): Result<Map<String, Double>> {
         return runCatching { dsRemote.loadRates() }
-            .map { it.rates ?: emptyMap()}
+            .map { it.rates ?: emptyMap() }
             .mapCatching { response -> response.also { saveToLocalDs(it) } }
     }
 
@@ -26,14 +26,14 @@ class DefaultRatesRepository(
     }
 
     override fun getRatesForConversion(
-        sellCurrency: String, receiveCurrency: String
+        srcCurrency: String, dstCurrency: String
     ): Flow<ConversionRates> {
         return dsLocal
-            .getRatesFor(sellCurrency, receiveCurrency)
+            .getRatesFor(srcCurrency, dstCurrency)
             .map { list ->
                 ConversionRates(
-                    list.firstOrNull { it.currencyCode == sellCurrency } ?.rate ?: 0.0,
-                    list.firstOrNull { it.currencyCode == receiveCurrency } ?.rate ?: 0.0,
+                    list.firstOrNull { it.currencyCode == srcCurrency }?.rate ?: 0.0,
+                    list.firstOrNull { it.currencyCode == dstCurrency }?.rate ?: 0.0,
                 )
             }
     }
@@ -64,6 +64,7 @@ class RoomRatesDataSource(
     }
 
     override fun getRatesFor(vararg currencies: String): Flow<List<CurrencyRateDbEntity>> {
-        return dao.getRatesFor(currencies.toSet())
+        return currencies.toSet()
+            .let { dao.getRatesFor(*currencies) }
     }
 }
