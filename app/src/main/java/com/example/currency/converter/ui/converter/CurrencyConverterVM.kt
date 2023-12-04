@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.currency.converter.domain.cases.BalancesLoader
+import com.example.currency.converter.domain.cases.ConversionExecutor
 import com.example.currency.converter.domain.cases.ConversionValidator
 import com.example.currency.converter.domain.cases.FeeProvider
 import com.example.currency.converter.domain.cases.RatesProvider
 import com.example.currency.converter.domain.cases.RatesUpdater
 import com.example.currency.converter.domain.entities.OperationAmount
+import com.example.currency.converter.domain.entities.OperationResult
 import com.example.currency.converter.utils.invokeEach
 import com.example.currency.converter.utils.seconds
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +30,7 @@ class CurrencyConverterVM(
     private val ratesProvider: RatesProvider,
     private val feeProvider: FeeProvider,
     private val validator: ConversionValidator,
+    private val conversionExecutor: ConversionExecutor,
 ) : ViewModel() {
 
     private val balancesMap = mutableMapOf<String, Double>()
@@ -97,7 +100,7 @@ class CurrencyConverterVM(
         rateFlowJob?.cancel()
         rateFlowJob = vmScope.launch {
             ratesProvider.getConversionRates(srcCurrency, dstCurrency)
-                .catch {_state.update { it.copy(isConversionAvailable = false) } }
+                .catch { _state.update { it.copy(isConversionAvailable = false) } }
                 .collect { (srcRate, dstRate) ->
                     _state.update {
                         it.copy(
@@ -132,5 +135,34 @@ class CurrencyConverterVM(
         } catch (t: Throwable) {
             0.0
         }
+    }
+
+    fun doConversion() {
+
+        _state.update { it.copy(inProgress = true) }
+        vmScope.launch {
+
+            val currentState = state.value
+            conversionExecutor
+                .convert(
+                    OperationAmount(
+                        currentState.srcAmount,
+                        currentState.srcCurrency,
+                        currentState.srcRate,
+                    ),
+                    OperationAmount(
+                        currentState.dstAmount,
+                        currentState.dstCurrency,
+                        currentState.dstRate,
+                    ),
+                    currentState.fee,
+                )
+                .catch { emit(OperationResult(isError = true, errorMessage = it.message)) }
+                .collect { result -> _state.update { it.copy(operationResult = result) } }
+        }
+    }
+
+    fun resetResult() {
+        _state.update { it.copy(inProgress = false, operationResult = null) }
     }
 }

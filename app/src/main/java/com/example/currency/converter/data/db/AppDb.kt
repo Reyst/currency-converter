@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.currency.converter.data.db.dao.AccountDao
-import com.example.currency.converter.data.db.dao.OperationsDao
 import com.example.currency.converter.data.db.dao.RatesDao
 import com.example.currency.converter.data.db.entities.AccountDbEntity
 import com.example.currency.converter.data.db.entities.CurrencyRateDbEntity
@@ -17,7 +16,7 @@ import com.example.currency.converter.data.db.entities.CurrencyRateDbEntity
 abstract class AppDb : RoomDatabase() {
     abstract fun accountDao(): AccountDao
     abstract fun ratesDao(): RatesDao
-    abstract fun operationsDao(): OperationsDao
+
 }
 
 class DbCallback : RoomDatabase.Callback() {

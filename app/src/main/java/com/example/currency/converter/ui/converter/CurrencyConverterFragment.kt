@@ -5,15 +5,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import co.wurthy.delegates.viewbinding.viewBinding
 import com.example.currency.converter.R
 import com.example.currency.converter.databinding.FragmentCurrencyConverterBinding
+import com.example.currency.converter.domain.entities.OperationResult
 import com.example.currency.converter.ui.converter.adapters.BalanceAdapter
 import com.example.currency.converter.ui.converter.adapters.SelectCurrencyAdapter
 import com.example.currency.converter.utils.obtainDebounceTextChangesFlow
 import com.example.currency.converter.utils.subscribeAtStart
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -40,6 +43,8 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
 
     private val receiveCurrencyAdapter by lazy { SelectCurrencyAdapter(requireContext()) }
 
+    private var dialog: AlertDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeAtStart(vm.state, ::render)
@@ -63,6 +68,8 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
         binding.sellAmount.obtainDebounceTextChangesFlow()
             .onEach { vm.updateSellingAmount(it) }
             .launchIn(lifecycleScope)
+
+        binding.btnSubmit.setOnClickListener { vm.doConversion() }
     }
 
     private fun getCurrencySelectedListener(action: (String) -> Unit): OnItemSelectedListener {
@@ -91,7 +98,34 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
         receiveCurrencyAdapter.setItems(state.availableCurrencies)
 
         binding.receiveAmount.text = formatter.format(state.dstAmount)
-        binding.btnSubmit.isEnabled = state.isConversionAvailable
+        binding.btnSubmit.isEnabled = state.isConversionAvailable && !state.inProgress
+
+        if (state.operationResult != null) showDialog(state.operationResult)
+        else dialog = null
+    }
+
+    private fun showDialog(result: OperationResult) {
+
+        if (dialog?.isShowing == true) return
+
+        val titleId = if (result.isError) R.string.error else R.string.success
+        val message =
+            if (result.isError) result.errorMessage
+            else getString(
+                R.string.success_message,
+                formatter.format(result.srcAmount.amount),
+                result.srcAmount.currency,
+                formatter.format(result.dstAmount.amount),
+                result.dstAmount.currency,
+                formatter.format(result.fee),
+            )
+
+        dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(titleId)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok) { _, _ -> vm.resetResult() }
+            .setCancelable(false)
+            .show()
     }
 }
 

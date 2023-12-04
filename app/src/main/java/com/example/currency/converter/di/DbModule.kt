@@ -5,6 +5,5 @@ import org.koin.dsl.module
 
 val dbModule = module {
     factory { get<AppDb>().accountDao() }
-    factory { get<AppDb>().operationsDao() }
     factory { get<AppDb>().ratesDao() }
 }
