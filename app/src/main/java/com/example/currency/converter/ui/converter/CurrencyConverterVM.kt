@@ -48,7 +48,6 @@ class CurrencyConverterVM(
         vmScope.launch {
             balanceLoader
                 .getBalances()
-
                 .onEach {
                     it.map { (currency, rest) -> currency to rest }
                         .also(balancesMap::putAll)
