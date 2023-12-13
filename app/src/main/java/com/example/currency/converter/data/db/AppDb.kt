@@ -8,10 +8,10 @@ import com.example.currency.converter.data.db.dao.RatesDao
 import com.example.currency.converter.data.db.entities.AccountDbEntity
 import com.example.currency.converter.data.db.entities.CurrencyRateDbEntity
 
-
 @Database(
     entities = [AccountDbEntity::class, CurrencyRateDbEntity::class],
     version = 1,
+    exportSchema = true,
 )
 abstract class AppDb : RoomDatabase() {
     abstract fun accountDao(): AccountDao

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.currency.converter.R
 import com.example.currency.converter.domain.entities.Account
-import com.example.currency.converter.utils.inflate
+import com.github.reyst.utils.view.inflate
 
 class BalanceAdapter(
     private val formatter: NumberFormat,

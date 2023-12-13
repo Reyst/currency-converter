@@ -8,14 +8,14 @@ import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import co.wurthy.delegates.viewbinding.viewBinding
 import com.example.currency.converter.R
 import com.example.currency.converter.databinding.FragmentCurrencyConverterBinding
 import com.example.currency.converter.domain.entities.OperationResult
 import com.example.currency.converter.ui.converter.adapters.BalanceAdapter
 import com.example.currency.converter.ui.converter.adapters.SelectCurrencyAdapter
-import com.example.currency.converter.utils.obtainDebounceTextChangesFlow
-import com.example.currency.converter.utils.subscribeAtStart
+import com.github.reyst.utils.view.binding.viewBinding
+import com.github.reyst.utils.view.obtainDebounceTextChangesFlow
+import com.github.reyst.utils.view.subscribeAtStart
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.launchIn
