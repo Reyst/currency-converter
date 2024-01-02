@@ -2,7 +2,7 @@ package com.example.currency.converter.domain.cases
 
 import com.example.currency.converter.domain.entities.OperationAmount
 import com.example.currency.converter.domain.repositories.OperationRepository
-import com.example.currency.converter.utils.flowFromResult
+import com.github.reyst.utils.flowFromResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

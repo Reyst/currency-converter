@@ -11,8 +11,7 @@ import com.example.currency.converter.domain.cases.RatesProvider
 import com.example.currency.converter.domain.cases.RatesUpdater
 import com.example.currency.converter.domain.entities.OperationAmount
 import com.example.currency.converter.domain.entities.OperationResult
-import com.example.currency.converter.utils.invokeEach
-import com.example.currency.converter.utils.seconds
+import com.github.reyst.utils.invokeEach
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,6 +22,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class CurrencyConverterVM(
     private val balanceLoader: BalancesLoader,
@@ -63,7 +63,7 @@ class CurrencyConverterVM(
         }
 
         vmScope.invokeEach(
-            interval = 5.seconds(),
+            interval = 5.seconds,
             Dispatchers.IO,
         ) {
             ratesUpdater.updateRates()
